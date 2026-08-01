@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare Solutions - Better Healthcare for Everyone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 150px 2rem 100px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Problems Section */
+        .problems {
+            padding: 80px 2rem;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .problem-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Solutions Section */
+        .solutions {
+            padding: 80px 2rem;
+            background: white;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .solution-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .solution-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 2rem;
+            background: #f8f9fa;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .feature-item {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .feature-item h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 2rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            padding: 0.3rem 0;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #555;
+            color: #ccc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">🏥 HealthCare+</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#problems">Problems</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Revolutionary Healthcare Solutions</h1>
+        <p>Solving Today's Healthcare Challenges with Smart Technology</p>
+        <button class="cta-button">Get Started Today</button>
+    </section>
+
+    <!-- Problems Section -->
+    <section class="problems" id="problems">
+        <h2 class="section-title">Healthcare Challenges We Address</h2>
+        <div class="problems-grid">
+            <div class="problem-card">
+                <div class="problem-icon">🔍</div>
+                <h3>Finding the Right Doctor</h3>
+                <p>Patients struggle to find qualified doctors that match their specific needs, leading to frustration and delayed treatment.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">⏰</div>
+                <h3>Long Waiting Times</h3>
+                <p>Excessive waiting periods for appointments cause delayed diagnoses and treatment, impacting patient health outcomes.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">📋</div>
+                <h3>Scattered Medical Records</h3>
+                <p>Medical history spread across multiple providers makes it difficult to get comprehensive care and wastes valuable time.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">💊</div>
+                <h3>Medication Management</h3>
+                <p>Missing medication doses due to poor reminders can lead to treatment failure and health complications.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">❌</div>
+                <h3>Limited Health Awareness</h3>
+                <p>Lack of preventive care knowledge results in avoidable health issues and emergency situations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions" id="solutions">
+        <h2 class="section-title">Our Solutions</h2>
+        <div class="solutions-grid">
+            <div class="solution-card">
+                <div class="solution-icon">🤖</div>
+                <h3>Smart Doctor Matching</h3>
+                <p>AI-powered system that matches you with the right specialist based on your symptoms, location, insurance, and reviews in seconds.</p>
+            </div>
+            <div class="solution-card">
+                <div class="solution-icon">📱</div>
+                <h3>Instant Online Booking</h3>
+                <p>Real-time appointment scheduling with immediate confirmation. See available slots and book within minutes, not days.</p>
+            </div>
+            <div class="solution-card">
+                <div class="solution-icon">☁️</div>
+                <h3>Centralized Health Records</h3>
+                <p>Secure cloud-based storage for all your medical records, accessible anytime, anywhere by you and your healthcare providers.</p>
+            </div>
+            <div class="solution-card">
+                <div class="solution-icon">🔔</div>
+                <h3>Smart Medication Reminders</h3>
+                <p>Personalized notifications and tracking to ensure you never miss a dose. Includes refill reminders and drug interaction alerts.</p>
+            </div>
+            <div class="solution-card">
+                <div class="solution-icon">🎓</div>
+                <h3>Health Education Hub</h3>
+                <p>Access to reliable health information, preventive care tips, and personalized wellness programs to keep you healthy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Why Choose HealthCare+</h2>
+        <div class="features-container">
+            <div class="feature-item">
+                <h3>For Patients</h3>
+                <ul class="feature-list">
+                    <li>Find doctors by specialty, location, and ratings</li>
+                    <li>Book appointments 24/7 online</li>
+                    <li>Access your complete medical history</li>
+                    <li>Get medication reminders via SMS & app</li>
+                    <li>Video consultations available</li>
+                    <li>Personalized health tips and articles</li>
+                    <li>Track symptoms and vitals</li>
+                    <li>Secure HIPAA-compliant platform</li>
+                </ul>
+            </div>
+            <div class="feature-item">
+                <h3>For Healthcare Providers</h3>
+                <ul class="feature-list">
+                    <li>Efficient appointment management</li>
+                    <li>Reduced no-shows with reminders</li>
+                    <li>Access to patient history instantly</li>
+                    <li>Streamlined workflow and documentation</li>
+                    <li>Telemedicine capabilities</li>
+                    <li>Analytics and reporting tools</li>
+                    <li>Prescription management system</li>
+                    <li>Integration with existing systems</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <h2>Ready to Transform Your Healthcare Experience?</h2>
+        <p>Join thousands of patients already benefiting from smarter healthcare</p>
+        <button class="cta-button">Sign Up Free</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About HealthCare+</h3>
+                <p>We're dedicated to making healthcare accessible, efficient, and patient-centered through innovative technology solutions.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#problems">Problems We Solve</a></li>
+                    <li><a href="#solutions">Our Solutions</a></li>
+                    <li><a href="#features">Features</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>📧 info@healthcareplus.com</li>
+                    <li>📞 1-800-HEALTH-1</li>
+                    <li>📍 123 Medical Plaza, Health City</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 HealthCare+. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
