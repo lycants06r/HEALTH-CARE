@@ -1,0 +1,2745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FamilyCare Family Health Web App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   CSS VARIABLES & DESIGN SYSTEM
+   ========================================================================== */
+:root {
+    --bg-gradient-start: #0f0c29;
+    --bg-gradient-mid: #302b63;
+    --bg-gradient-end: #24243e;
+    
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    
+    --primary-start: #667eea;
+    --primary-end: #764ba2;
+    
+    --success-start: #43e97b;
+    --success-end: #38f9d7;
+    
+    --warning-start: #f9ca24;
+    --warning-end: #f0932b;
+    
+    --danger-start: #ff6b6b;
+    --danger-end: #ee5a24;
+    
+    --text-main: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    
+    --sidebar-width: 260px;
+    --topbar-height: 70px;
+    --bottom-nav-height: 65px;
+    
+    --transition-speed: 0.3s;
+}
+
+/* ==========================================================================
+   GLOBAL RESET & BASE STYLES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
+    background-attachment: fixed;
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ==========================================================================
+   UTILITY CLASSES & GLASSMORPHISM
+   ========================================================================== */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 20px;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.text-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-success {
+    background: linear-gradient(135deg, var(--success-start), var(--success-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-muted { color: var(--text-muted); }
+
+/* Buttons */
+.btn {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #fff;
+}
+
+.btn:hover {
+    transform: scale(1.02);
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-start), var(--success-end));
+    color: #000;
+    box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--warning-start), var(--warning-end));
+    color: #000;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger-start), var(--danger-end));
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(5px);
+}
+.btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+/* Inputs */
+.input-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-main);
+    padding: 14px 16px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    outline: none;
+}
+
+.input-glass::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.input-glass:focus {
+    border-color: var(--primary-start);
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.4);
+}
+
+select.input-glass {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+select.input-glass option {
+    background: var(--bg-gradient-mid);
+    color: #fff;
+}
+textarea.input-glass { resize: vertical; min-height: 100px; }
+
+/* Grid Layouts */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+
+/* Badges */
+.badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.badge-success { background: rgba(67, 233, 123, 0.2); color: #43e97b; border: 1px solid #43e97b; }
+.badge-warning { background: rgba(249, 202, 36, 0.2); color: #f9ca24; border: 1px solid #f9ca24; }
+.badge-danger { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; border: 1px solid #ff6b6b; }
+.badge-primary { background: rgba(102, 126, 234, 0.2); color: #667eea; border: 1px solid #667eea; }
+
+/* Empty States */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--glass-bg);
+    border: 1px dashed var(--glass-border);
+    border-radius: 20px;
+}
+.empty-state .emoji { font-size: 4rem; margin-bottom: 20px; }
+.empty-state h3 { font-size: 1.5rem; margin-bottom: 10px; }
+.empty-state p { color: var(--text-muted); margin-bottom: 25px; max-width: 400px; }
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseRed {
+    0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+}
+
+@keyframes pulseYellow {
+    0% { box-shadow: 0 0 0 0 rgba(249, 202, 36, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(249, 202, 36, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(249, 202, 36, 0); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes checkmarkAnim {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes progressLoad {
+    from { width: 0; }
+}
+
+/* ==========================================================================
+   LAYOUT STRUCTURE
+   ========================================================================== */
+#app {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* SIDEBAR */
+#sidebar {
+    width: var(--sidebar-width);
+    background: rgba(0, 0, 0, 0.2);
+    border-right: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transition: var(--transition-speed);
+}
+
+.sidebar-header {
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    border-bottom: 1px solid var(--glass-border);
+}
+.sidebar-header h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+.nav-item .emoji { font-size: 1.3rem; }
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+.nav-item.active {
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.2), transparent);
+    color: var(--text-main);
+    border-left: 4px solid var(--primary-start);
+    border-radius: 0 12px 12px 0;
+}
+
+/* MAIN CONTENT */
+#main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* TOPBAR */
+#topbar {
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 90;
+}
+
+.topbar-left { display: flex; align-items: center; gap: 20px; }
+.topbar-left h2 { font-size: 1.4rem; font-weight: 600; margin: 0;}
+
+.search-bar {
+    position: relative;
+    width: 350px;
+}
+.search-bar .emoji {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+}
+.search-bar input {
+    padding-left: 45px;
+    border-radius: 30px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notif-bell {
+    position: relative;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 5px;
+    transition: transform var(--transition-speed);
+}
+.notif-bell:hover { transform: scale(1.1); }
+.notif-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--danger-start);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 800;
+    height: 18px;
+    min-width: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg-gradient-mid);
+}
+
+.notif-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 30px;
+    width: 350px;
+    max-height: 400px;
+    background: var(--bg-gradient-end);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    animation: scaleIn 0.2s ease;
+}
+.notif-dropdown.show { display: flex; }
+.notif-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.notif-body {
+    overflow-y: auto;
+    max-height: 300px;
+}
+.notif-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    gap: 15px;
+    transition: background 0.2s;
+}
+.notif-item:hover { background: rgba(255,255,255,0.05); }
+.notif-item .emoji { font-size: 1.5rem; }
+.notif-item-text h4 { font-size: 0.9rem; margin-bottom: 3px; }
+.notif-item-text p { font-size: 0.8rem; color: var(--text-muted); }
+
+/* PAGES CONTAINER */
+#pages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+    position: relative;
+    scroll-behavior: smooth;
+}
+
+.page {
+    display: none;
+    animation: fadeSlideUp 0.4s ease forwards;
+    padding-bottom: 50px; /* Space for floating button */
+}
+.page.active { display: block; }
+
+/* FLOATING SOS */
+#btn-sos-float {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--danger-start), var(--danger-end));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(255, 107, 107, 0.5);
+    animation: pulseRed 2s infinite;
+    z-index: 900;
+    transition: transform 0.2s;
+}
+#btn-sos-float:hover { transform: scale(1.1); }
+#btn-sos-float:active { transform: scale(0.9); }
+
+/* TOASTS */
+#toast-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 3000;
+}
+
+.toast {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 15px 25px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    animation: slideInRight 0.3s forwards;
+}
+.toast.success { border-left: 5px solid var(--success-start); }
+.toast.error { border-left: 5px solid var(--danger-start); }
+.toast.warning { border-left: 5px solid var(--warning-start); }
+.toast-closing { transform: translateX(120%); transition: transform 0.3s; }
+
+/* MODALS */
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.modal-backdrop.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal {
+    background: linear-gradient(135deg, #1e1b4b, #2e1065);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 30px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.modal-backdrop.active .modal {
+    transform: scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+.modal-header h3 { font-size: 1.5rem; }
+.modal-close {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
+
+.form-group { margin-bottom: 20px; }
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   PAGE SPECIFIC STYLES
+   ========================================================================== */
+
+/* Page 1: Dashboard */
+.stat-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.stat-card-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.stat-card-value {
+    font-size: 2.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.stat-card-label { color: var(--text-muted); font-size: 0.9rem; }
+
+.family-map-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    padding: 20px 0;
+}
+.family-member-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.family-member-avatar:hover { transform: translateY(-5px); }
+.avatar-ring {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    background: var(--glass-bg);
+    margin-bottom: 12px;
+    border: 3px solid transparent;
+}
+.avatar-healthy { border-color: var(--success-start); box-shadow: 0 0 20px rgba(67, 233, 123, 0.4); }
+.avatar-attention { border-color: var(--warning-start); animation: pulseYellow 3s infinite; }
+.avatar-critical { border-color: var(--danger-start); animation: pulseRed 1.5s infinite; }
+.avatar-name { font-weight: 600; font-size: 1.1rem; }
+.avatar-status { font-size: 0.8rem; color: var(--text-muted); }
+
+.dash-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* Page 2: Family Members */
+.member-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.member-card-avatar {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+}
+.member-card-info h3 { font-size: 1.3rem; margin-bottom: 2px; }
+.member-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.member-stat-pill {
+    background: rgba(0,0,0,0.2);
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+}
+
+/* Page 3: Medication */
+.med-progress-container { margin-bottom: 30px; }
+.progress-bar-bg {
+    height: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success-start), var(--success-end));
+    width: 0%;
+    border-radius: 6px;
+    transition: width 1s ease-in-out;
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.filter-tabs::-webkit-scrollbar { height: 4px; }
+.filter-tabs::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+.filter-tab {
+    padding: 8px 20px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+.filter-tab:hover { background: rgba(255,255,255,0.1); }
+.filter-tab.active {
+    background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+    color: white;
+    border-color: transparent;
+}
+
+.med-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.med-info { display: flex; align-items: center; gap: 15px; }
+.med-icon {
+    width: 50px; height: 50px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+}
+.med-details h4 { font-size: 1.1rem; margin-bottom: 4px; }
+.med-details p { font-size: 0.85rem; color: var(--text-muted); }
+.btn-take-med { min-width: 120px; }
+
+/* Page 4: Vitals */
+.vital-card-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 15px;
+}
+.vital-value { font-size: 2.5rem; font-weight: 700; font-family: 'Poppins'; line-height: 1; margin-bottom: 10px; }
+.vital-unit { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+.vital-zone-bar {
+    height: 4px; width: 100%; background: rgba(255,255,255,0.1); border-radius: 2px;
+    margin-bottom: 15px; position: relative;
+}
+.vital-zone-indicator {
+    position: absolute; height: 8px; width: 8px; border-radius: 50%;
+    background: white; top: -2px; box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+.css-chart { display: flex; align-items: flex-end; gap: 4px; height: 60px; margin-top: 15px; }
+.chart-bar-col { flex: 1; background: rgba(102, 126, 234, 0.4); border-radius: 4px 4px 0 0; min-height: 10%; transition: height 1s; }
+.chart-bar-col:hover { background: var(--primary-start); }
+
+/* Page 5: Doctors */
+.doc-card { display: flex; flex-direction: column; gap: 15px; }
+.doc-header { display: flex; gap: 15px; align-items: center; }
+.doc-avatar { width: 70px; height: 70px; border-radius: 15px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight:bold; }
+.doc-info h3 { margin-bottom: 5px; }
+.doc-info p { color: var(--text-muted); font-size: 0.9rem; }
+.doc-rating { color: #f9ca24; font-weight: bold; }
+.doc-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; }
+
+/* Page 6: Locker */
+.doc-file-card { display: flex; flex-direction: column; gap: 15px; align-items: center; text-align: center; }
+.doc-icon-large { font-size: 4rem; margin: 10px 0; }
+.doc-file-actions { display: flex; gap: 10px; width: 100%; }
+.doc-file-actions button { flex: 1; }
+
+/* Page 7: AI Chat */
+.chat-wrapper {
+    display: flex; flex-direction: column; height: calc(100vh - 220px);
+}
+.chat-messages-area {
+    flex: 1; overflow-y: auto; padding: 20px;
+    display: flex; flex-direction: column; gap: 15px;
+}
+.chat-bubble {
+    max-width: 75%; padding: 15px 20px; border-radius: 20px;
+    line-height: 1.5; position: relative;
+    animation: scaleIn 0.3s ease;
+}
+.bubble-ai {
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    align-self: flex-start; border-bottom-left-radius: 5px;
+}
+.bubble-user {
+    background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+    align-self: flex-end; border-bottom-right-radius: 5px;
+}
+.chat-input-area {
+    padding: 20px; border-top: 1px solid var(--glass-border);
+    background: rgba(0,0,0,0.2); display: flex; gap: 15px;
+}
+.typing-indicator {
+    display: inline-flex; gap: 5px; padding: 10px 15px;
+}
+.typing-dot {
+    width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%;
+    animation: typingBounce 1.4s infinite ease-in-out both;
+}
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+@keyframes typingBounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+/* Page 8: SOS */
+.sos-page { text-align: center; padding-top: 30px; }
+.sos-button-huge {
+    width: 280px; height: 280px; border-radius: 50%;
+    background: radial-gradient(circle, #ff0000 0%, #990000 100%);
+    border: 15px solid rgba(255,0,0,0.2);
+    margin: 0 auto 50px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; user-select: none;
+    box-shadow: 0 0 50px rgba(255,0,0,0.5);
+    transition: transform 0.2s;
+    animation: pulseRed 1.5s infinite;
+}
+.sos-button-huge:active { transform: scale(0.95); }
+.sos-title { font-size: 5rem; font-family: 'Poppins'; font-weight: 800; line-height: 1; }
+.sos-subtitle { font-size: 1.2rem; font-weight: 500; opacity: 0.9; margin-top: 10px; }
+
+/* Page 9: Challenges */
+.health-score-display {
+    text-align: center; margin-bottom: 40px;
+}
+.score-circle {
+    width: 180px; height: 180px; border-radius: 50%;
+    background: conic-gradient(var(--success-start) var(--score-deg, 0deg), rgba(255,255,255,0.1) 0deg);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px; position: relative;
+}
+.score-circle-inner {
+    width: 150px; height: 150px; border-radius: 50%;
+    background: var(--bg-gradient-mid);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.score-value { font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, var(--success-start), var(--success-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1;}
+.badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 20px; text-align: center; }
+.badge-item { font-size: 3rem; filter: grayscale(100%); opacity: 0.4; transition: 0.3s; }
+.badge-item.earned { filter: grayscale(0%); opacity: 1; animation: scaleIn 0.5s; }
+
+/* Page 10: Calendar */
+.calendar-wrapper { margin-top: 20px; }
+.cal-header-row { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: 600; padding: 15px 0; border-bottom: 1px solid var(--glass-border); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 15px; }
+.cal-cell {
+    aspect-ratio: 1; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);
+    padding: 8px; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s;
+}
+.cal-cell:hover { background: rgba(255,255,255,0.1); }
+.cal-cell.today { background: rgba(102, 126, 234, 0.2); border-color: var(--primary-start); }
+.cal-cell.empty { border: none; cursor: default; }
+.cal-cell:hover.empty { background: transparent; }
+.cal-date-num { font-weight: 600; margin-bottom: auto; }
+.cal-events-dots { display: flex; gap: 3px; flex-wrap: wrap; justify-content: center; }
+.cal-dot { width: 6px; height: 6px; border-radius: 50%; }
+.dot-med { background: #3498db; } .dot-appt { background: #2ecc71; } .dot-alert { background: #e74c3c; } .dot-check { background: #f1c40f; }
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+    #app { flex-direction: column; }
+    
+    #sidebar {
+        position: fixed; bottom: 0; left: 0; width: 100%; height: var(--bottom-nav-height);
+        flex-direction: row; border-right: none; border-top: 1px solid var(--glass-border);
+        background: rgba(15, 12, 41, 0.95); z-index: 1000;
+    }
+    
+    .sidebar-header { display: none; }
+    .nav-links {
+        flex-direction: row; justify-content: space-around; align-items: center; padding: 0; gap: 0;
+    }
+    .nav-item {
+        flex-direction: column; gap: 4px; padding: 8px 0; border-radius: 0; width: 100%;
+        font-size: 0.65rem; border: none !important;
+    }
+    .nav-item.active { background: transparent; border-top: 3px solid var(--primary-start) !important; color: var(--primary-start); }
+    .nav-item .nav-text { display: none; } /* Hide text or keep it tiny */
+    .nav-item .emoji { font-size: 1.5rem; }
+    
+    #topbar { padding: 0 15px; }
+    .search-bar { display: none; } /* Hide search on small mobile topbar, or make it icon only */
+    
+    #pages-container { padding: 15px; padding-bottom: calc(var(--bottom-nav-height) + 20px); }
+    
+    #btn-sos-float { bottom: calc(var(--bottom-nav-height) + 20px); right: 20px; width: 60px; height: 60px; font-size: 1.2rem; }
+    
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .sos-button-huge { width: 220px; height: 220px; }
+    .sos-title { font-size: 4rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+    <!-- LEFT SIDEBAR -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="text-gradient-primary">❤️ FamilyCare</h2>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item active" data-page="dashboard"><span class="emoji">🏠</span><span class="nav-text">Dashboard</span></li>
+            <li class="nav-item" data-page="members"><span class="emoji">👨‍👩‍👧‍👦</span><span class="nav-text">Family Members</span></li>
+            <li class="nav-item" data-page="medications"><span class="emoji">💊</span><span class="nav-text">Medications</span></li>
+            <li class="nav-item" data-page="vitals"><span class="emoji">❤️</span><span class="nav-text">Vitals Tracker</span></li>
+            <li class="nav-item" data-page="doctors"><span class="emoji">👨‍⚕️</span><span class="nav-text">Doctor Booking</span></li>
+            <li class="nav-item" data-page="locker"><span class="emoji">📁</span><span class="nav-text">Health Locker</span></li>
+            <li class="nav-item" data-page="ai"><span class="emoji">🤖</span><span class="nav-text">AI Assistant</span></li>
+            <li class="nav-item" data-page="sos"><span class="emoji">🚨</span><span class="nav-text">SOS Emergency</span></li>
+            <li class="nav-item" data-page="challenges"><span class="emoji">🏆</span><span class="nav-text">Challenges</span></li>
+            <li class="nav-item" data-page="calendar"><span class="emoji">📅</span><span class="nav-text">Calendar</span></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <div id="main-wrapper">
+        <!-- TOPBAR -->
+        <header id="topbar">
+            <div class="topbar-left">
+                <h2 id="pageTitle">Dashboard</h2>
+            </div>
+            <div class="search-bar">
+                <span class="emoji">🔍</span>
+                <input type="text" class="input-glass" placeholder="Search across all health data..." oninput="handleGlobalSearch(event)">
+            </div>
+            <div class="topbar-right">
+                <div class="notif-bell" onclick="toggleNotifications()">
+                    🔔<span class="notif-badge" id="globalNotifCount">0</span>
+                    <div class="notif-dropdown" id="notifDropdown">
+                        <div class="notif-header">
+                            <h3>Alerts</h3>
+                            <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="markAllAlertsRead(event)">Mark all read</button>
+                        </div>
+                        <div class="notif-body" id="notifList">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGES -->
+        <main id="pages-container">
+
+            <!-- ================= PAGE 1: DASHBOARD ================= -->
+            <section id="page-dashboard" class="page active">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px;">
+                    <div>
+                        <h2 id="dashGreeting">Good Morning!</h2>
+                        <p class="text-muted">Here's your family's health overview for today.</p>
+                    </div>
+                    <h3 id="dashDate" class="text-gradient-primary"></h3>
+                </div>
+
+                <div class="stat-cards-container">
+                    <div class="glass-card stat-card">
+                        <span class="stat-card-icon">👨‍👩‍👧‍👦</span>
+                        <span class="stat-card-value" id="dashStatMembers">0</span>
+                        <span class="stat-card-label">Total Members</span>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <span class="stat-card-icon">💊</span>
+                        <span class="stat-card-value" id="dashStatMeds">0</span>
+                        <span class="stat-card-label">Meds Due Today</span>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <span class="stat-card-icon">📅</span>
+                        <span class="stat-card-value" id="dashStatAppts">0</span>
+                        <span class="stat-card-label">Upcoming Appts</span>
+                    </div>
+                    <div class="glass-card stat-card" style="border-color: rgba(255,107,107,0.3);">
+                        <span class="stat-card-icon">⚠️</span>
+                        <span class="stat-card-value" id="dashStatAlerts" style="color: var(--danger-start); -webkit-text-fill-color: initial;">0</span>
+                        <span class="stat-card-label">Active Alerts</span>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 15px;">Family Health Map</h3>
+                <div class="glass-card">
+                    <div class="family-map-container" id="dashFamilyMap">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <div class="dash-sections">
+                    <div class="glass-card">
+                        <h3 style="margin-bottom: 15px;">Today's Checklist</h3>
+                        <div id="dashChecklist"></div>
+                    </div>
+                    <div class="glass-card">
+                        <h3 style="margin-bottom: 15px;">Weekly Health Summary</h3>
+                        <div style="display:flex; align-items:center; gap:20px;">
+                            <div class="score-circle" style="width:100px; height:100px; --score-deg: 0deg;" id="dashSummaryCircle">
+                                <div class="score-circle-inner" style="width:80px; height:80px;">
+                                    <span style="font-size:1.5rem; font-weight:bold;" id="dashSummaryScore">0%</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p style="margin-bottom:10px;">Adherence: <b id="dashAdherenceText">Good</b></p>
+                                <p class="text-muted" style="font-size:0.9rem;">Based on logged vitals and medication intake this week.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 2: FAMILY MEMBERS ================= -->
+            <section id="page-members" class="page">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 30px; flex-wrap:wrap; gap:15px;">
+                    <p class="text-muted">Manage profiles and baseline health data for everyone in the family.</p>
+                    <button class="btn btn-primary" onclick="openModal('modalAddMember')">➕ Add Member</button>
+                </div>
+                
+                <div class="grid-3" id="membersGrid">
+                    <!-- Injected by JS -->
+                </div>
+            </section>
+
+            <!-- ================= PAGE 3: MEDICATION GUARDIAN ================= -->
+            <section id="page-medications" class="page">
+                <div class="med-progress-container">
+                    <div style="display:flex; justify-content:space-between; align-items:end;">
+                        <div>
+                            <h3 id="medsTodayDate">Today</h3>
+                            <p class="text-muted" id="medsProgressText">0 of 0 medications taken today</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="openModal('modalAddMed')">➕ Add Medication</button>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="medsProgressBar"></div>
+                    </div>
+                </div>
+
+                <div class="filter-tabs" id="medsFilterTabs">
+                    <div class="filter-tab active" onclick="setMedFilter('All', this)">All</div>
+                    <div class="filter-tab" onclick="setMedFilter('Morning', this)">Morning</div>
+                    <div class="filter-tab" onclick="setMedFilter('Afternoon', this)">Afternoon</div>
+                    <div class="filter-tab" onclick="setMedFilter('Evening', this)">Evening</div>
+                    <div class="filter-tab" onclick="setMedFilter('Night', this)">Night</div>
+                </div>
+
+                <div id="medsListArea">
+                    <!-- Injected by JS -->
+                </div>
+                
+                <div class="grid-2" style="margin-top: 30px;">
+                    <div class="glass-card">
+                        <h4 style="color:var(--warning-start); margin-bottom:15px;">⚠️ Low Stock Alerts</h4>
+                        <div id="medsLowStock">No low stock alerts.</div>
+                    </div>
+                    <div class="glass-card">
+                        <h4 style="color:var(--danger-start); margin-bottom:15px;">❌ Missed This Week</h4>
+                        <div id="medsMissedSummary">Great job! No missed medications.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 4: VITALS TRACKER ================= -->
+            <section id="page-vitals" class="page">
+                <div class="filter-tabs" id="vitalsMemberTabs" style="margin-bottom:20px;">
+                    <!-- Injected by JS -->
+                </div>
+                
+                <div style="text-align: right; margin-bottom: 20px;">
+                    <button class="btn btn-primary" onclick="openModal('modalLogVital')">➕ Log Vital</button>
+                </div>
+
+                <div class="grid-3" id="vitalsGrid">
+                    <!-- Injected by JS -->
+                </div>
+            </section>
+
+            <!-- ================= PAGE 5: DOCTOR BOOKING ================= -->
+            <section id="page-doctors" class="page">
+                <div class="search-bar" style="width:100%; margin-bottom: 20px;">
+                    <span class="emoji">🔍</span>
+                    <input type="text" class="input-glass" id="docSearch" placeholder="Search by symptom or specialty (e.g., Fever, Cardiologist)..." onkeyup="filterDoctors()">
+                </div>
+                
+                <div class="filter-tabs" style="margin-bottom: 30px;">
+                    <div class="filter-tab" onclick="quickSearchDoc('Fever')">Fever</div>
+                    <div class="filter-tab" onclick="quickSearchDoc('Back Pain')">Back Pain</div>
+                    <div class="filter-tab" onclick="quickSearchDoc('Diabetes')">Diabetes</div>
+                    <div class="filter-tab" onclick="quickSearchDoc('Child Health')">Child Health</div>
+                    <div class="filter-tab" onclick="quickSearchDoc('Heart')">Heart</div>
+                    <div class="filter-tab" onclick="quickSearchDoc('Skin')">Skin</div>
+                </div>
+
+                <div style="display:flex; gap:20px; margin-bottom:20px; border-bottom:1px solid var(--glass-border);">
+                    <h3 style="cursor:pointer; padding-bottom:10px; border-bottom: 3px solid var(--primary-start);" id="tabTitleBook" onclick="switchDocTab('book')">Find Doctors</h3>
+                    <h3 style="cursor:pointer; padding-bottom:10px; color:var(--text-muted);" id="tabTitleMine" onclick="switchDocTab('mine')">My Appointments</h3>
+                </div>
+
+                <div id="docTabBook">
+                    <div class="grid-2" id="docListGrid">
+                        <!-- Simulated Doctors injected by JS -->
+                    </div>
+                </div>
+                
+                <div id="docTabMine" style="display:none;">
+                    <div id="myApptsList" style="display:flex; flex-direction:column; gap:15px;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 6: HEALTH LOCKER ================= -->
+            <section id="page-locker" class="page">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                    <h3><span id="lockerDocCount" class="text-gradient-primary">0</span> Documents Secured</h3>
+                    <button class="btn btn-primary" onclick="openModal('modalAddDoc')">➕ Add Document</button>
+                </div>
+                
+                <div class="search-bar" style="width:100%; margin-bottom: 20px;">
+                    <span class="emoji">🔍</span>
+                    <input type="text" class="input-glass" id="docLockerSearch" placeholder="Search documents by name or tags..." onkeyup="filterLocker()">
+                </div>
+
+                <div class="filter-tabs" id="lockerFilterTabs">
+                    <div class="filter-tab active" onclick="setLockerFilter('All', this)">All</div>
+                    <div class="filter-tab" onclick="setLockerFilter('Prescription', this)">Prescriptions</div>
+                    <div class="filter-tab" onclick="setLockerFilter('Lab Report', this)">Lab Reports</div>
+                    <div class="filter-tab" onclick="setLockerFilter('Scan', this)">Scans</div>
+                    <div class="filter-tab" onclick="setLockerFilter('Vaccination', this)">Vaccinations</div>
+                </div>
+
+                <div class="grid-4" id="lockerGrid">
+                    <!-- Injected by JS -->
+                </div>
+            </section>
+
+            <!-- ================= PAGE 7: AI HEALTH ASSISTANT ================= -->
+            <section id="page-ai" class="page">
+                <div class="glass-card chat-wrapper" style="padding:0; overflow:hidden;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 15px 20px; border-bottom: 1px solid var(--glass-border);">
+                        <h3 class="text-gradient-primary">🤖 CareBot AI</h3>
+                        <p style="font-size:0.8rem;" class="text-muted">Instant answers to your health queries.</p>
+                    </div>
+                    
+                    <div style="padding: 10px 20px; display:flex; gap:10px; overflow-x:auto; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <div class="badge badge-primary" style="cursor:pointer; white-space:nowrap;" onclick="sendAiQuickMsg('Check BP reading')">Check BP reading</div>
+                        <div class="badge badge-primary" style="cursor:pointer; white-space:nowrap;" onclick="sendAiQuickMsg('Drug interactions')">Drug interactions</div>
+                        <div class="badge badge-primary" style="cursor:pointer; white-space:nowrap;" onclick="sendAiQuickMsg('Fever dose calculator')">Fever dose calculator</div>
+                        <div class="badge badge-primary" style="cursor:pointer; white-space:nowrap;" onclick="sendAiQuickMsg('Explain lab values')">Explain lab values</div>
+                    </div>
+
+                    <div class="chat-messages-area" id="chatArea">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <div class="chat-input-area">
+                        <input type="text" id="aiChatInput" class="input-glass" placeholder="Ask anything..." onkeypress="if(event.key==='Enter') submitAiChat()">
+                        <button class="btn btn-primary" onclick="submitAiChat()">Send</button>
+                    </div>
+                </div>
+                <p style="text-align:center; font-size:0.75rem; margin-top:15px; color:var(--text-muted);">Disclaimer: CareBot AI provides informational content only and is not a substitute for professional medical advice.</p>
+            </section>
+
+            <!-- ================= PAGE 8: SOS EMERGENCY ================= -->
+            <section id="page-sos" class="page sos-page">
+                <button class="sos-button-huge" id="btnSosMain" onmousedown="startSOSCountdown()" onmouseup="cancelSOSCountdown()" onmouseleave="cancelSOSCountdown()" ontouchstart="startSOSCountdown()" ontouchend="cancelSOSCountdown()">
+                    <span class="sos-title">SOS</span>
+                    <span class="sos-subtitle" id="sosMainText">PRESS AND HOLD</span>
+                </button>
+                <p class="text-muted" style="margin-bottom:40px;">Hold for 3 seconds to instantly alert family members and share your GPS location.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 40px;">💡 Silent SOS: Press volume down button 5 times rapidly (Tip)</p>
+
+                <div class="grid-2" style="text-align:left;">
+                    <div class="glass-card">
+                        <h3 style="color:var(--danger-start); margin-bottom:20px;">🚑 Nearby Emergency Services</h3>
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            <div class="glass-card" style="padding:15px; display:flex; justify-content:space-between; align-items:center;">
+                                <div><b>City General ER</b><br><span class="badge badge-success" style="margin-top:5px; display:inline-block;">Low Wait Time</span></div>
+                                <div><small style="display:block; text-align:right; margin-bottom:5px;">1.2 miles</small><button class="btn btn-danger" style="padding:6px 12px;">Call</button></div>
+                            </div>
+                            <div class="glass-card" style="padding:15px; display:flex; justify-content:space-between; align-items:center;">
+                                <div><b>LifeCare 24/7 Pharmacy</b></div>
+                                <div><small style="display:block; text-align:right; margin-bottom:5px;">0.8 miles</small><button class="btn btn-primary" style="padding:6px 12px;">Dir</button></div>
+                            </div>
+                            <div class="glass-card" style="padding:15px; display:flex; justify-content:space-between; align-items:center;">
+                                <div><b>Ambulance Service</b></div>
+                                <button class="btn btn-danger" style="padding:6px 12px;">911</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <h3 style="margin-bottom:20px;">👨‍👩‍👧‍👦 Emergency Contacts</h3>
+                        <div id="sosContactsList" style="display:flex; flex-direction:column; gap:15px;">
+                            <!-- Injected by JS -->
+                        </div>
+                        
+                        <h3 style="margin-top:30px; margin-bottom:15px;">🏥 Share Medical Info</h3>
+                        <select class="input-glass" id="sosShareMember" onchange="renderSosShareInfo()" style="margin-bottom:15px;">
+                            <!-- Injected by JS -->
+                        </select>
+                        <div id="sosShareInfoDisplay" class="glass-card" style="background:rgba(0,0,0,0.2); padding:15px; font-size:0.9rem; margin-bottom:15px;">
+                            Select a member to view summary.
+                        </div>
+                        <button class="btn btn-primary" style="width:100%;" onclick="copySosInfo()">Copy for Hospital</button>
+                    </div>
+                </div>
+                
+                <h3 style="margin: 40px 0 20px; text-align:left;">First Aid Tips</h3>
+                <div class="grid-4" style="text-align:left;">
+                    <div class="glass-card" style="padding:15px;"><b>🫀 Heart Attack</b><br><small class="text-muted">Chest pain, shortness of breath, left arm pain. Call 911 immediately. Chew aspirin if available.</small></div>
+                    <div class="glass-card" style="padding:15px;"><b>🧠 Stroke (FAST)</b><br><small class="text-muted">Face drooping, Arm weakness, Speech difficulty, Time to call 911.</small></div>
+                    <div class="glass-card" style="padding:15px;"><b>🩸 Bleeding</b><br><small class="text-muted">Apply firm, continuous direct pressure with clean cloth. Elevate if possible.</small></div>
+                    <div class="glass-card" style="padding:15px;"><b>🔥 Burns</b><br><small class="text-muted">Cool with running water for 10-20 mins. Do not use ice or butter. Cover loosely.</small></div>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 9: HEALTH CHALLENGES ================= -->
+            <section id="page-challenges" class="page">
+                <div class="health-score-display">
+                    <div class="score-circle" id="challengeScoreCircle">
+                        <div class="score-circle-inner">
+                            <span class="score-value" id="challengeScoreValue">0</span>
+                        </div>
+                    </div>
+                    <h2>Family Health Score</h2>
+                    <p class="text-muted">Calculated from medication adherence and active challenges.</p>
+                </div>
+
+                <h3 style="margin-bottom: 20px;">Active Weekly Challenges</h3>
+                <div class="grid-3">
+                    <div class="glass-card">
+                        <h3 style="margin-bottom:5px;">🏃‍♂️ Steps Challenge</h3>
+                        <p class="text-muted" style="font-size:0.85rem; margin-bottom:15px;">Goal: 10,000 steps daily average.</p>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" id="chalStepsBar"></div></div>
+                        <p style="font-size:0.8rem; text-align:right; margin-bottom:15px;" id="chalStepsText">0 / 10000</p>
+                        <div style="display:flex; gap:10px;">
+                            <input type="number" id="chalStepsInput" class="input-glass" placeholder="Log steps">
+                            <button class="btn btn-primary" onclick="logChallengeSteps()">Log</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <h3 style="margin-bottom:5px;">💧 Water Intake</h3>
+                        <p class="text-muted" style="font-size:0.85rem; margin-bottom:15px;">Goal: 8 glasses per day.</p>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" id="chalWaterBar" style="background: linear-gradient(90deg, #3498db, #2980b9);"></div></div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+                            <button class="btn btn-outline" style="border-radius:50%; width:40px; height:40px; padding:0;" onclick="adjustWater(-1)">-</button>
+                            <h2 id="chalWaterText">0</h2>
+                            <button class="btn btn-outline" style="border-radius:50%; width:40px; height:40px; padding:0;" onclick="adjustWater(1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <h3 style="margin-bottom:5px;">💊 Zero Missed Meds</h3>
+                        <p class="text-muted" style="font-size:0.85rem; margin-bottom:15px;">Auto-tracked from Medication Guardian.</p>
+                        <div style="display:flex; align-items:center; justify-content:center; height:80px;">
+                            <h1 style="font-size:3rem; color:var(--success-start);" id="chalStreakDays">0</h1>
+                            <span style="margin-left:10px; font-weight:bold; color:var(--text-muted);">Day Streak! 🔥</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2" style="margin-top: 30px;">
+                    <div class="glass-card">
+                        <h3 style="margin-bottom:20px;">🏅 Member Leaderboard</h3>
+                        <div id="chalLeaderboard">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <h3 style="margin-bottom:20px;">🏆 Achievement Badges</h3>
+                        <div class="badges-grid">
+                            <div class="badge-item earned" title="First Member Added">🌟</div>
+                            <div class="badge-item earned" title="App Installed">📱</div>
+                            <div class="badge-item" id="badgeHydration" title="Hydration Hero (8 glasses)">💧</div>
+                            <div class="badge-item" id="badgeSteps" title="Marathon Family (10k steps)">🏃</div>
+                            <div class="badge-item" id="badgeStreak" title="Medicine Master (7 day streak)">🔥</div>
+                            <div class="badge-item" title="Perfect Month (Locked)">👑</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 10: HEALTH CALENDAR ================= -->
+            <section id="page-calendar" class="page">
+                <div class="glass-card calendar-wrapper">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                        <button class="btn btn-outline" onclick="changeCalMonth(-1)">◀ Prev</button>
+                        <h2 id="calMonthYearText">Month Year</h2>
+                        <button class="btn btn-outline" onclick="changeCalMonth(1)">Next ▶</button>
+                    </div>
+                    
+                    <div class="cal-header-row">
+                        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                    </div>
+                    <div class="cal-grid" id="calGridBody">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin: 30px 0 20px;">
+                    <h3>Upcoming Events</h3>
+                    <button class="btn btn-primary" onclick="openModal('modalAddEvent')">➕ Add Event</button>
+                </div>
+                
+                <div id="calEventsList" style="display:flex; flex-direction:column; gap:15px;">
+                    <!-- Injected by JS -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<!-- FLOATING SOS BUTTON (Global) -->
+<button id="btn-sos-float" onclick="navigateTo('sos')">SOS</button>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- ================= MODALS ================= -->
+
+<!-- ADD MEMBER MODAL -->
+<div class="modal-backdrop" id="modalAddMember">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Add Family Member</h3>
+            <button class="modal-close" onclick="closeModal('modalAddMember')">✖</button>
+        </div>
+        <form onsubmit="handleFormSubmit(event, saveMember)">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="fmName" class="input-glass" required>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="fmAge" class="input-glass" required min="0">
+                </div>
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select id="fmBlood" class="input-glass" required>
+                        <option value="">Select...</option>
+                        <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                        <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+                        <option>Unknown</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Relationship</label>
+                <select id="fmRel" class="input-glass" required>
+                    <option value="">Select...</option>
+                    <option>Dad</option><option>Mom</option><option>Son</option><option>Daughter</option>
+                    <option>Grandpa</option><option>Grandma</option><option>Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Known Conditions (Optional)</label>
+                <input type="text" id="fmCond" class="input-glass" placeholder="e.g. Hypertension, Asthma">
+            </div>
+            <div class="form-group">
+                <label>Allergies (Optional)</label>
+                <input type="text" id="fmAllergy" class="input-glass" placeholder="e.g. Peanuts, Penicillin">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Save Profile</button>
+        </form>
+    </div>
+</div>
+
+<!-- ADD MEDICATION MODAL -->
+<div class="modal-backdrop" id="modalAddMed">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Add Medication</h3>
+            <button class="modal-close" onclick="closeModal('modalAddMed')">✖</button>
+        </div>
+        <form onsubmit="handleFormSubmit(event, saveMedication)">
+            <div class="form-group">
+                <label>Select Member</label>
+                <select id="mdMember" class="input-glass member-select-fill" required></select>
+            </div>
+            <div class="form-group">
+                <label>Medicine Name</label>
+                <input type="text" id="mdName" class="input-glass" required>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Dosage</label>
+                    <input type="text" id="mdDose" class="input-glass" placeholder="e.g. 500mg, 1 tablet" required>
+                </div>
+                <div class="form-group">
+                    <label>Frequency</label>
+                    <select id="mdFreq" class="input-glass" required>
+                        <option>Once daily</option><option>Twice daily</option><option>Thrice daily</option><option>As needed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Time of Day (Hold Ctrl/Cmd to multi-select if possible, or select primary)</label>
+                <select id="mdTime" class="input-glass" required>
+                    <option>Morning</option><option>Afternoon</option><option>Evening</option><option>Night</option>
+                </select>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>With Food?</label>
+                    <select id="mdFood" class="input-glass"><option>Yes</option><option>No</option><option>Either</option></select>
+                </div>
+                <div class="form-group">
+                    <label>Stock Remaining (Pills)</label>
+                    <input type="number" id="mdStock" class="input-glass" value="30" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Save Medication</button>
+        </form>
+    </div>
+</div>
+
+<!-- LOG VITAL MODAL -->
+<div class="modal-backdrop" id="modalLogVital">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Log Vital Sign</h3>
+            <button class="modal-close" onclick="closeModal('modalLogVital')">✖</button>
+        </div>
+        <form onsubmit="handleFormSubmit(event, saveVital)">
+            <div class="form-group">
+                <label>Select Member</label>
+                <select id="vtMember" class="input-glass member-select-fill" required></select>
+            </div>
+            <div class="form-group">
+                <label>Vital Type</label>
+                <select id="vtType" class="input-glass" onchange="updateVitalInputPlaceholder()" required>
+                    <option value="bp">Blood Pressure (mmHg)</option>
+                    <option value="hr">Heart Rate (BPM)</option>
+                    <option value="bs">Blood Sugar (mg/dL)</option>
+                    <option value="temp">Temperature (°F)</option>
+                    <option value="spo2">Oxygen Level (SpO2 %)</option>
+                    <option value="weight">Weight (kg)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Reading</label>
+                <input type="text" id="vtVal" class="input-glass" placeholder="e.g. 120/80" required>
+            </div>
+            <div class="form-group" id="vtSubtypeContainer" style="display:none;">
+                <label>Condition</label>
+                <select id="vtSubtype" class="input-glass">
+                    <option>Fasting</option><option>Post-meal</option><option>Random</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="vtDate" class="input-glass" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Save Reading</button>
+        </form>
+    </div>
+</div>
+
+<!-- BOOK APPOINTMENT MODAL -->
+<div class="modal-backdrop" id="modalBookAppt">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Book Appointment</h3>
+            <button class="modal-close" onclick="closeModal('modalBookAppt')">✖</button>
+        </div>
+        <form onsubmit="handleFormSubmit(event, saveAppointment)">
+            <input type="hidden" id="bkDocName">
+            <input type="hidden" id="bkDocSpec">
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                <h4 id="bkDocDisplay" class="text-gradient-primary">Doctor Name</h4>
+                <p id="bkSpecDisplay" class="text-muted" style="font-size:0.9rem;">Specialty</p>
+            </div>
+            <div class="form-group">
+                <label>Patient (Family Member)</label>
+                <select id="bkMember" class="input-glass member-select-fill" required></select>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="bkDate" class="input-glass" required>
+                </div>
+                <div class="form-group">
+                    <label>Time Slot</label>
+                    <select id="bkTime" class="input-glass" required>
+                        <option>09:00 AM</option><option>10:30 AM</option><option>01:00 PM</option><option>03:30 PM</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Visit Type</label>
+                <select id="bkType" class="input-glass" required>
+                    <option>In-Person Clinic Visit</option>
+                    <option>Video Consultation</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Reason for visit</label>
+                <input type="text" id="bkReason" class="input-glass" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<!-- ADD DOCUMENT MODAL -->
+<div class="modal-backdrop" id="modalAddDoc">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Add Health Document</h3>
+            <button class="modal-close" onclick="closeModal('modalAddDoc')">✖</button>
+        </div>
+        <form onsubmit="handleFormSubmit(event, saveDocument)">
+            <div class="form-group">
+                <label>Document Name</label>
+                <input type="text" id="dcName" class="input-glass" placeholder="e.g. Blood Test Results" required>
+            </div>
+            <div class="form-group">
+                <label>Belongs To</label>
+                <select id="dcMember" class="input-glass member-select-fill" required></select>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Document Type</label>
+                    <select id="dcType" class="input-glass" required>
+                        <option>Prescription</option><option>Lab Report</option><option>Scan</option>
+                        <option>Vaccination</option><option>Discharge Summary</option><option>General</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date Issued</label>
+                    <input type="date" id="dcDate" class="input-glass" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Doctor / Hospital Name</label>
+                <input type="text" id="dcHospital" class="input-glass">
+            </div>
+            <div class="form-group">
+                <label>Notes / Summary</label>
+                <textarea id="dcNotes" class="input-glass" placeholder="Brief summary of document contents..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Save to Locker</button>
+        </form>
+    </div>
+</div>
+
+<!-- ADD CALENDAR EVENT MODAL -->
+<div class="modal-backdrop" id="modalAddEvent">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Add Event</h3>
+            <button class="modal-close" onclick="closeModal('modalAddEvent')">✖</button>
+        </div>
+        <form onsubmit="handleFormSubmit(event, saveCalendarEvent)">
+            <div class="form-group">
+                <label>Event Title</label>
+                <input type="text" id="evTitle" class="input-glass" required>
+            </div>
+            <div class="form-group">
+                <label>Event Type</label>
+                <select id="evType" class="input-glass" required>
+                    <option>Appointment</option><option>Medication</option><option>Checkup</option>
+                    <option>Vaccine</option><option>Reminder</option><option>Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Related Member (Optional)</label>
+                <select id="evMember" class="input-glass member-select-fill">
+                    <option value="">None / Whole Family</option>
+                </select>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="evDate" class="input-glass" required>
+                </div>
+                <div class="form-group">
+                    <label>Time (Optional)</label>
+                    <input type="time" id="evTime" class="input-glass">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Add to Calendar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+/* ==========================================================================
+   STATE MANAGEMENT (LocalStorage)
+   ========================================================================== */
+const STORE_KEYS = {
+    members: 'familycare_members',
+    medications: 'familycare_medications',
+    vitals: 'familycare_vitals',
+    appointments: 'familycare_appointments',
+    documents: 'familycare_documents',
+    challenges: 'familycare_challenges',
+    calendar: 'familycare_calendar',
+    notifications: 'familycare_notifications',
+    chatHistory: 'familycare_chat_history'
+};
+
+const state = {
+    members: JSON.parse(localStorage.getItem(STORE_KEYS.members)) || [],
+    medications: JSON.parse(localStorage.getItem(STORE_KEYS.medications)) || [],
+    vitals: JSON.parse(localStorage.getItem(STORE_KEYS.vitals)) || [],
+    appointments: JSON.parse(localStorage.getItem(STORE_KEYS.appointments)) || [],
+    documents: JSON.parse(localStorage.getItem(STORE_KEYS.documents)) || [],
+    challenges: JSON.parse(localStorage.getItem(STORE_KEYS.challenges)) || { steps: 0, water: 0 },
+    calendar: JSON.parse(localStorage.getItem(STORE_KEYS.calendar)) || [],
+    notifications: JSON.parse(localStorage.getItem(STORE_KEYS.notifications)) || [],
+    chatHistory: JSON.parse(localStorage.getItem(STORE_KEYS.chatHistory)) || []
+};
+
+function saveState(key) {
+    localStorage.setItem(STORE_KEYS[key], JSON.stringify(state[key]));
+    checkGlobalAlerts();
+}
+
+/* ==========================================================================
+   UTILITY FUNCTIONS
+   ========================================================================== */
+function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
+
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    let icon = '✅';
+    if(type === 'error') icon = '❌';
+    if(type === 'warning') icon = '⚠️';
+    
+    toast.innerHTML = `<span style="font-size:1.2rem;">${icon}</span> <span>${message}</span>`;
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('toast-closing');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+function getRelEmoji(rel) {
+    const map = { Dad:'👨', Mom:'👩', Son:'👦', Daughter:'👧', Grandpa:'👴', Grandma:'👵', Other:'👤' };
+    return map[rel] || '👤';
+}
+
+function getVitalUnit(type) {
+    const map = { bp:'mmHg', hr:'BPM', bs:'mg/dL', temp:'°F', spo2:'%', weight:'kg' };
+    return map[type] || '';
+}
+
+function getVitalEmoji(type) {
+    const map = { bp:'❤️', hr:'💓', bs:'🩸', temp:'🌡️', spo2:'💨', weight:'⚖️' };
+    return map[type] || '📊';
+}
+
+function getDocIcon(type) {
+    const map = { Prescription:'💊', 'Lab Report':'🔬', Scan:'🩻', Vaccination:'💉', 'Discharge Summary':'🏥', General:'📄' };
+    return map[type] || '📄';
+}
+
+function handleFormSubmit(e, callback) {
+    e.preventDefault();
+    if (callback()) {
+        e.target.reset();
+    }
+}
+
+/* ==========================================================================
+   UI NAVIGATION & SHELL
+   ========================================================================== */
+const pages = ['dashboard', 'members', 'medications', 'vitals', 'doctors', 'locker', 'ai', 'sos', 'challenges', 'calendar'];
+const pageTitles = {
+    dashboard: 'Dashboard', members: 'Family Members', medications: 'Medication Guardian',
+    vitals: 'Vitals Tracker', doctors: 'Doctor Booking', locker: 'Health Locker',
+    ai: 'AI Assistant', sos: 'SOS Emergency', challenges: 'Health Challenges', calendar: 'Health Calendar'
+};
+
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => navigateTo(item.dataset.page));
+});
+
+function navigateTo(pageId) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const navItem = document.querySelector(`.nav-item[data-page="${pageId}"]`);
+    if(navItem) navItem.classList.add('active');
+    
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(`page-${pageId}`).classList.add('active');
+    
+    document.getElementById('pageTitle').innerText = pageTitles[pageId];
+    
+    // Close sidebar on mobile
+    if(window.innerWidth <= 768) {
+        // Mobile has bottom nav, no action needed for closing sidebar
+    }
+    
+    // Initialize specific page data
+    window.scrollTo(0, 0);
+    renderPage(pageId);
+}
+
+function renderPage(pageId) {
+    populateMemberSelects(); // Always ensure selects are updated
+    switch(pageId) {
+        case 'dashboard': renderDashboard(); break;
+        case 'members': renderMembers(); break;
+        case 'medications': renderMedications('All'); break;
+        case 'vitals': renderVitals(); break;
+        case 'doctors': renderDoctors(); renderMyAppts(); break;
+        case 'locker': renderLocker(); break;
+        case 'ai': renderChat(); break;
+        case 'sos': renderSosContacts(); break;
+        case 'challenges': renderChallenges(); break;
+        case 'calendar': renderCalendar(); renderUpcomingEvents(); break;
+    }
+}
+
+/* MODALS */
+function openModal(id) {
+    populateMemberSelects();
+    if(id==='modalLogVital') { document.getElementById('vtDate').valueAsDate = new Date(); }
+    document.getElementById(id).classList.add('active');
+}
+function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+}
+function populateMemberSelects() {
+    let opts = '<option value="">Select Member...</option>';
+    state.members.forEach(m => opts += `<option value="${m.id}">${m.name} (${m.rel})</option>`);
+    document.querySelectorAll('.member-select-fill').forEach(sel => {
+        const currVal = sel.value;
+        sel.innerHTML = opts;
+        if(currVal) sel.value = currVal; // preserve selection if any
+    });
+}
+
+/* NOTIFICATIONS */
+function toggleNotifications() {
+    document.getElementById('notifDropdown').classList.toggle('show');
+}
+function checkGlobalAlerts() {
+    let unread = state.notifications.filter(n => !n.read).length;
+    document.getElementById('globalNotifCount').innerText = unread;
+    document.getElementById('dashStatAlerts').innerText = unread;
+    renderNotifications();
+}
+function renderNotifications() {
+    const list = document.getElementById('notifList');
+    if(state.notifications.length === 0) {
+        list.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted);">No alerts.</div>';
+        return;
+    }
+    list.innerHTML = state.notifications.sort((a,b)=>b.time - a.time).slice(0, 10).map(n => `
+        <div class="notif-item" style="${n.read?'opacity:0.6':''}">
+            <span class="emoji">${n.icon || '⚠️'}</span>
+            <div class="notif-item-text">
+                <h4>${n.title}</h4>
+                <p>${n.desc}</p>
+            </div>
+        </div>
+    `).join('');
+}
+function addNotification(title, desc, icon='⚠️') {
+    state.notifications.push({ id: generateId(), title, desc, icon, time: Date.now(), read: false });
+    saveState('notifications');
+}
+function markAllAlertsRead(e) {
+    e.stopPropagation();
+    state.notifications.forEach(n => n.read = true);
+    saveState('notifications');
+    showToast('All alerts marked as read');
+}
+
+/* ==========================================================================
+   PAGE 1: DASHBOARD
+   ========================================================================== */
+function renderDashboard() {
+    const hour = new Date().getHours();
+    document.getElementById('dashGreeting').innerText = `Good ${hour<12?'Morning':hour<18?'Afternoon':'Evening'}!`;
+    document.getElementById('dashDate').innerText = new Date().toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
+    
+    document.getElementById('dashStatMembers').innerText = state.members.length;
+    
+    const todayMeds = state.medications; // simplifying, normally filter by day
+    document.getElementById('dashStatMeds').innerText = todayMeds.length;
+    
+    const futureAppts = state.appointments.filter(a => new Date(a.date) >= new Date(new Date().setHours(0,0,0,0)));
+    document.getElementById('dashStatAppts').innerText = futureAppts.length;
+    
+    checkGlobalAlerts();
+    
+    // Family Map
+    const mapContainer = document.getElementById('dashFamilyMap');
+    if(state.members.length === 0) {
+        mapContainer.innerHTML = `
+            <div class="empty-state" style="width:100%; border:none;">
+                <span class="emoji">👋</span>
+                <p>Welcome! Add your family members to start building your health map.</p>
+                <button class="btn btn-primary" onclick="navigateTo('members')">Add Member</button>
+            </div>
+        `;
+    } else {
+        mapContainer.innerHTML = state.members.map(m => {
+            // Logic for status ring
+            let ringClass = 'avatar-healthy';
+            let statusText = 'Healthy';
+            const mCond = m.cond ? m.cond.toLowerCase() : '';
+            if(m.age > 65 || mCond.includes('heart') || mCond.includes('diabetes')) {
+                ringClass = 'avatar-attention'; statusText = 'Needs Attention';
+            }
+            // Check missed meds for critical
+            const hasMissed = state.medications.some(med => med.memberId === m.id && med.stock < 5); // dummy critical condition
+            if(hasMissed) { ringClass = 'avatar-critical'; statusText = 'Critical Alert'; }
+            
+            return `
+            <div class="family-member-avatar" onclick="navigateTo('members')">
+                <div class="avatar-ring ${ringClass}">
+                    ${getRelEmoji(m.rel)}
+                </div>
+                <span class="avatar-name">${m.name}</span>
+                <span class="avatar-status">${statusText}</span>
+            </div>
+        `}).join('');
+    }
+    
+    // Checklist
+    const checklist = document.getElementById('dashChecklist');
+    if(todayMeds.length === 0) {
+        checklist.innerHTML = '<p class="text-muted">No medications scheduled for today.</p>';
+    } else {
+        checklist.innerHTML = todayMeds.slice(0,4).map(m => `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" ${m.taken?'checked':''} onchange="toggleMedDash('${m.id}')" style="width:18px; height:18px; cursor:pointer;">
+                    <span style="${m.taken?'text-decoration:line-through; opacity:0.6':''}">${m.name} (${m.dose})</span>
+                </div>
+                <small class="badge badge-primary">${m.time}</small>
+            </div>
+        `).join('') + (todayMeds.length > 4 ? `<button class="btn btn-outline" style="width:100%; margin-top:10px;" onclick="navigateTo('medications')">View All</button>` : '');
+    }
+    
+    // Summary calculation
+    let score = 100;
+    const totalMeds = state.medications.length;
+    const takenMeds = state.medications.filter(m=>m.taken).length;
+    if(totalMeds > 0) score = Math.round((takenMeds/totalMeds)*100);
+    
+    document.getElementById('dashSummaryScore').innerText = `${score}%`;
+    document.getElementById('dashSummaryCircle').style.setProperty('--score-deg', `${(score/100)*360}deg`);
+    const adText = document.getElementById('dashAdherenceText');
+    if(score >= 80) { adText.innerText = 'Excellent'; adText.className = 'text-gradient-success'; }
+    else if(score >= 50) { adText.innerText = 'Needs Improvement'; adText.style.color = 'var(--warning-start)'; }
+    else { adText.innerText = 'Poor - Check alerts'; adText.style.color = 'var(--danger-start)'; }
+}
+
+function toggleMedDash(id) {
+    const m = state.medications.find(x=>x.id === id);
+    if(m) {
+        m.taken = !m.taken;
+        saveState('medications');
+        renderDashboard();
+    }
+}
+
+/* ==========================================================================
+   PAGE 2: FAMILY MEMBERS
+   ========================================================================== */
+function saveMember() {
+    const m = {
+        id: generateId(),
+        name: document.getElementById('fmName').value,
+        age: parseInt(document.getElementById('fmAge').value),
+        blood: document.getElementById('fmBlood').value,
+        rel: document.getElementById('fmRel').value,
+        cond: document.getElementById('fmCond').value,
+        allergy: document.getElementById('fmAllergy').value,
+        addedOn: Date.now()
+    };
+    state.members.push(m);
+    saveState('members');
+    closeModal('modalAddMember');
+    showToast(`${m.name} added to family!`);
+    renderMembers();
+    return true; // clears form
+}
+
+function renderMembers() {
+    const grid = document.getElementById('membersGrid');
+    if(state.members.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-state" style="grid-column: 1/-1;">
+                <span class="emoji">👨‍👩‍👧‍👦</span>
+                <h3>No Family Members Yet</h3>
+                <p>Add profiles to start tracking vitals, medications, and documents per member.</p>
+            </div>
+        `;
+        return;
+    }
+    grid.innerHTML = state.members.map(m => `
+        <div class="glass-card">
+            <div class="member-card-header">
+                <div class="member-card-avatar">${getRelEmoji(m.rel)}</div>
+                <div class="member-card-info">
+                    <h3>${m.name}</h3>
+                    <p class="text-muted">${m.rel} • ${m.age} yrs</p>
+                </div>
+            </div>
+            <div class="member-stats">
+                <span class="member-stat-pill">🩸 ${m.blood}</span>
+                ${m.cond ? `<span class="member-stat-pill" style="color:var(--warning-start)">⚠️ ${m.cond}</span>` : ''}
+                ${m.allergy ? `<span class="member-stat-pill" style="color:var(--danger-start)">🚫 ${m.allergy}</span>` : ''}
+            </div>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button class="btn btn-outline" style="flex:1" onclick="alert('Edit coming soon')">Edit</button>
+                <button class="btn btn-danger" onclick="deleteMember('${m.id}')">🗑️</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function deleteMember(id) {
+    if(confirm("Are you sure you want to remove this family member? All associated records should be managed manually.")) {
+        state.members = state.members.filter(m => m.id !== id);
+        saveState('members');
+        showToast('Member removed');
+        renderMembers();
+    }
+}
+
+/* ==========================================================================
+   PAGE 3: MEDICATION GUARDIAN
+   ========================================================================== */
+function saveMedication() {
+    const m = {
+        id: generateId(),
+        memberId: document.getElementById('mdMember').value,
+        name: document.getElementById('mdName').value,
+        dose: document.getElementById('mdDose').value,
+        freq: document.getElementById('mdFreq').value,
+        time: document.getElementById('mdTime').value,
+        food: document.getElementById('mdFood').value,
+        stock: parseInt(document.getElementById('mdStock').value),
+        taken: false,
+        addedOn: Date.now()
+    };
+    state.medications.push(m);
+    saveState('medications');
+    closeModal('modalAddMed');
+    showToast('Medication schedule saved');
+    renderMedications('All');
+    return true;
+}
+
+function setMedFilter(filter, el) {
+    document.querySelectorAll('#medsFilterTabs .filter-tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    renderMedications(filter);
+}
+
+function renderMedications(filter) {
+    const list = document.getElementById('medsListArea');
+    let meds = state.medications;
+    if(filter !== 'All') meds = meds.filter(m => m.time === filter);
+    
+    // Progress
+    const total = state.medications.length;
+    const taken = state.medications.filter(m=>m.taken).length;
+    document.getElementById('medsProgressText').innerText = `${taken} of ${total} medications taken today`;
+    document.getElementById('medsProgressBar').style.width = total === 0 ? '0%' : `${(taken/total)*100}%`;
+
+    // Low stock
+    const low = state.medications.filter(m => m.stock < 10);
+    if(low.length > 0) {
+        document.getElementById('medsLowStock').innerHTML = low.map(m=>`<div style="margin-bottom:5px;">• <b>${m.name}</b> (${m.stock} left)</div>`).join('');
+        // generate alert
+        if(!state.notifications.some(n=>n.title.includes(low[0].name))) addNotification('Low Medicine Stock', `Time to refill ${low[0].name}`, '💊');
+    } else {
+        document.getElementById('medsLowStock').innerHTML = 'Stock levels are good.';
+    }
+
+    if(meds.length === 0) {
+        list.innerHTML = `
+            <div class="empty-state">
+                <span class="emoji">💊</span>
+                <h3>No Medications Found</h3>
+                <p>Click "Add Medication" to set up reminders for your family.</p>
+            </div>
+        `;
+        return;
+    }
+
+    list.innerHTML = meds.map(m => {
+        const mem = state.members.find(x=>x.id === m.memberId);
+        const memName = mem ? mem.name : 'Unknown';
+        return `
+        <div class="glass-card med-card">
+            <div class="med-info">
+                <div class="med-icon">💊</div>
+                <div class="med-details">
+                    <h4>${m.name} <span class="badge badge-primary" style="margin-left:10px">${m.time}</span></h4>
+                    <p>${m.dose} • ${m.freq} • ${m.food!=='Either' ? (m.food==='Yes'?'With food':'Without food') : 'Anytime'} • For <b>${memName}</b></p>
+                </div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <span style="font-size:0.8rem; color:var(--text-muted)">Stock: ${m.stock}</span>
+                <button class="btn btn-take-med ${m.taken ? 'btn-success' : 'btn-primary'}" onclick="markMedTaken('${m.id}')">
+                    ${m.taken ? 'Taken ✅' : 'Mark Taken'}
+                </button>
+                <button class="btn btn-outline" style="padding:10px;" onclick="deleteMed('${m.id}')">🗑️</button>
+            </div>
+        </div>
+    `}).join('');
+}
+
+function markMedTaken(id) {
+    const m = state.medications.find(x=>x.id === id);
+    if(m) {
+        if(!m.taken) {
+            m.taken = true;
+            m.stock = Math.max(0, m.stock - 1);
+            showToast('Marked as taken!', 'success');
+            // Check achievement
+            state.challenges.streak = (state.challenges.streak||0) + 1; // simplify
+            saveState('challenges');
+        } else {
+            m.taken = false;
+            m.stock++;
+        }
+        saveState('medications');
+        const activeTab = document.querySelector('#medsFilterTabs .active').innerText;
+        renderMedications(activeTab);
+    }
+}
+function deleteMed(id) {
+    if(confirm("Delete this medication schedule?")) {
+        state.medications = state.medications.filter(m=>m.id!==id); saveState('medications');
+        renderMedications('All');
+    }
+}
+
+/* ==========================================================================
+   PAGE 4: VITALS TRACKER
+   ========================================================================== */
+function updateVitalInputPlaceholder() {
+    const type = document.getElementById('vtType').value;
+    const subC = document.getElementById('vtSubtypeContainer');
+    const input = document.getElementById('vtVal');
+    subC.style.display = 'none';
+    if(type === 'bp') input.placeholder = 'e.g. 120/80';
+    if(type === 'hr') input.placeholder = 'e.g. 72';
+    if(type === 'bs') { input.placeholder = 'e.g. 95'; subC.style.display = 'block'; }
+    if(type === 'temp') input.placeholder = 'e.g. 98.6';
+    if(type === 'spo2') input.placeholder = 'e.g. 98';
+    if(type === 'weight') input.placeholder = 'e.g. 70';
+}
+
+function saveVital() {
+    const v = {
+        id: generateId(),
+        memberId: document.getElementById('vtMember').value,
+        type: document.getElementById('vtType').value,
+        val: document.getElementById('vtVal').value,
+        date: document.getElementById('vtDate').value,
+        subtype: document.getElementById('vtType').value==='bs' ? document.getElementById('vtSubtype').value : null,
+        ts: Date.now()
+    };
+    state.vitals.push(v);
+    saveState('vitals');
+    closeModal('modalLogVital');
+    showToast('Vital logged successfully');
+    renderVitals();
+    
+    // Check critical
+    if(v.type === 'bp') {
+        const parts = v.val.split('/');
+        if(parts.length===2 && (parseInt(parts[0])>140 || parseInt(parts[1])>90)) {
+            addNotification('High Blood Pressure', `Reading of ${v.val} logged. Monitor closely.`, '❤️');
+        }
+    } else if (v.type === 'temp' && parseFloat(v.val) > 100) {
+         addNotification('Fever Detected', `Temperature of ${v.val}°F logged.`, '🌡️');
+    }
+    
+    return true;
+}
+
+let activeVitalMember = null;
+function renderVitals() {
+    const tabC = document.getElementById('vitalsMemberTabs');
+    if(state.members.length === 0) {
+        tabC.innerHTML = '';
+        document.getElementById('vitalsGrid').innerHTML = `
+            <div class="empty-state" style="grid-column: 1/-1;">
+                <span class="emoji">❤️</span>
+                <h3>No Data Available</h3>
+                <p>Add family members first to track their vitals.</p>
+                <button class="btn btn-primary" onclick="navigateTo('members')">Go to Members</button>
+            </div>
+        `;
+        return;
+    }
+    
+    if(!activeVitalMember || !state.members.find(m=>m.id===activeVitalMember)) {
+        activeVitalMember = state.members[0].id;
+    }
+    
+    tabC.innerHTML = state.members.map(m => `
+        <div class="filter-tab ${m.id===activeVitalMember?'active':''}" onclick="activeVitalMember='${m.id}'; renderVitals()">
+            ${m.name}
+        </div>
+    `).join('');
+    
+    const myVitals = state.vitals.filter(v => v.memberId === activeVitalMember).sort((a,b)=>b.ts - a.ts);
+    const grid = document.getElementById('vitalsGrid');
+    
+    const displayTypes = ['bp', 'hr', 'bs', 'temp', 'spo2', 'weight'];
+    const names = {bp:'Blood Pressure', hr:'Heart Rate', bs:'Blood Sugar', temp:'Temperature', spo2:'Oxygen Level', weight:'Weight'};
+    
+    grid.innerHTML = displayTypes.map(t => {
+        const typeVitals = myVitals.filter(v=>v.type===t);
+        const latest = typeVitals.length > 0 ? typeVitals[0] : null;
+        
+        let chartHtml = '';
+        if(typeVitals.length > 0) {
+            // grab last 5
+            const last5 = typeVitals.slice(0,5).reverse();
+            chartHtml = `<div class="css-chart">` + last5.map(v => {
+                let h = 20; // default height logic
+                let num = parseFloat(v.val.split('/')[0]) || parseFloat(v.val) || 0;
+                if(t==='bp') h = (num/200)*100;
+                if(t==='hr') h = (num/150)*100;
+                if(t==='bs') h = (num/300)*100;
+                if(t==='temp') h = ((num-95)/10)*100;
+                if(t==='spo2') h = (num/100)*100;
+                h = Math.max(10, Math.min(100, h));
+                return `<div class="chart-bar-col" style="height:${h}%" title="${v.val} on ${v.date}"></div>`;
+            }).join('') + `</div>`;
+        }
+        
+        // Zone coloring logic simple mockup
+        let zoneStyle = 'left:50%; background:var(--success-start);';
+        
+        return `
+        <div class="glass-card">
+            <div class="vital-card-header">
+                <div>
+                    <h4 style="margin-bottom:5px;">${getVitalEmoji(t)} ${names[t]}</h4>
+                    ${latest && latest.subtype ? `<span class="badge badge-primary">${latest.subtype}</span>` : ''}
+                </div>
+            </div>
+            
+            ${latest ? `
+                <div class="vital-value">${latest.val} <span class="vital-unit">${getVitalUnit(t)}</span></div>
+                <div class="vital-zone-bar"><div class="vital-zone-indicator" style="${zoneStyle}"></div></div>
+                <p style="font-size:0.8rem; color:var(--text-muted)">Logged: ${latest.date}</p>
+                ${chartHtml}
+            ` : `
+                <div class="vital-value" style="color:var(--text-muted)">--</div>
+                <p style="font-size:0.8rem; color:var(--text-muted)">No readings yet</p>
+            `}
+        </div>
+    `}).join('');
+}
+
+/* ==========================================================================
+   PAGE 5: DOCTOR BOOKING
+   ========================================================================== */
+const DOCTORS_DB = [
+    {id:'d1', name:'Dr. Sarah Jenkins', spec:'General Physician', tags:['fever','cold','flu'], rating:'4.9', dist:'1.2 miles', img:'👩‍⚕️'},
+    {id:'d2', name:'Dr. Michael Chen', spec:'Cardiologist', tags:['heart','blood pressure','chest'], rating:'4.8', dist:'3.5 miles', img:'👨‍⚕️'},
+    {id:'d3', name:'Dr. Emily Watson', spec:'Pediatrician', tags:['child health','fever','baby'], rating:'4.9', dist:'2.0 miles', img:'👩‍⚕️'},
+    {id:'d4', name:'Dr. Robert Kumar', spec:'Orthopedic', tags:['back pain','bones','joint'], rating:'4.7', dist:'4.1 miles', img:'👨‍⚕️'},
+    {id:'d5', name:'Dr. Lisa Ray', spec:'Endocrinologist', tags:['diabetes','sugar','thyroid'], rating:'4.8', dist:'5.0 miles', img:'👩‍⚕️'},
+    {id:'d6', name:'Dr. James Smith', spec:'Dermatologist', tags:['skin','acne','rash'], rating:'4.6', dist:'1.5 miles', img:'👨‍⚕️'}
+];
+
+function switchDocTab(tab) {
+    document.getElementById('docTabBook').style.display = tab === 'book' ? 'block' : 'none';
+    document.getElementById('docTabMine').style.display = tab === 'mine' ? 'block' : 'none';
+    document.getElementById('tabTitleBook').style = tab === 'book' ? 'cursor:pointer; padding-bottom:10px; border-bottom: 3px solid var(--primary-start); color:var(--text-main);' : 'cursor:pointer; padding-bottom:10px; color:var(--text-muted);';
+    document.getElementById('tabTitleMine').style = tab === 'mine' ? 'cursor:pointer; padding-bottom:10px; border-bottom: 3px solid var(--primary-start); color:var(--text-main);' : 'cursor:pointer; padding-bottom:10px; color:var(--text-muted);';
+}
+
+function quickSearchDoc(tag) {
+    document.getElementById('docSearch').value = tag;
+    filterDoctors();
+}
+
+function filterDoctors() {
+    renderDoctors(document.getElementById('docSearch').value.toLowerCase());
+}
+
+function renderDoctors(query = '') {
+    const grid = document.getElementById('docListGrid');
+    const filtered = DOCTORS_DB.filter(d => 
+        d.name.toLowerCase().includes(query) || 
+        d.spec.toLowerCase().includes(query) || 
+        d.tags.some(t => t.includes(query))
+    );
+    
+    if(filtered.length === 0) {
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><h3>No doctors found</h3><p>Try different keywords.</p></div>';
+        return;
+    }
+    
+    grid.innerHTML = filtered.map(d => `
+        <div class="glass-card doc-card">
+            <div class="doc-header">
+                <div class="doc-avatar">${d.img}</div>
+                <div class="doc-info">
+                    <h3>${d.name}</h3>
+                    <p>${d.spec}</p>
+                    <div style="display:flex; gap:10px; margin-top:5px; font-size:0.85rem;">
+                        <span class="doc-rating">⭐ ${d.rating}</span>
+                        <span class="text-muted">📍 ${d.dist}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-actions">
+                <button class="btn btn-outline" style="font-size:0.9rem;" onclick="showToast('Video Consult details sent to email.')">📹 Video Consult</button>
+                <button class="btn btn-primary" style="font-size:0.9rem;" onclick="openBookModal('${d.name}', '${d.spec}')">📅 Book Appt</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openBookModal(name, spec) {
+    document.getElementById('bkDocName').value = name;
+    document.getElementById('bkDocSpec').value = spec;
+    document.getElementById('bkDocDisplay').innerText = name;
+    document.getElementById('bkSpecDisplay').innerText = spec;
+    openModal('modalBookAppt');
+}
+
+function saveAppointment() {
+    const a = {
+        id: generateId(),
+        memberId: document.getElementById('bkMember').value,
+        docName: document.getElementById('bkDocName').value,
+        docSpec: document.getElementById('bkDocSpec').value,
+        date: document.getElementById('bkDate').value,
+        time: document.getElementById('bkTime').value,
+        type: document.getElementById('bkType').value,
+        reason: document.getElementById('bkReason').value,
+        status: 'Upcoming'
+    };
+    state.appointments.push(a);
+    saveState('appointments');
+    closeModal('modalBookAppt');
+    showToast('Appointment booked successfully!');
+    switchDocTab('mine');
+    renderMyAppts();
+    return true;
+}
+
+function renderMyAppts() {
+    const list = document.getElementById('myApptsList');
+    if(state.appointments.length === 0) {
+        list.innerHTML = `
+            <div class="empty-state">
+                <span class="emoji">📅</span>
+                <h3>No Appointments</h3>
+                <p>You haven't booked any appointments yet.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Sort by date nearest
+    const sorted = [...state.appointments].sort((a,b) => new Date(a.date) - new Date(b.date));
+    
+    list.innerHTML = sorted.map(a => {
+        const mem = state.members.find(x=>x.id===a.memberId);
+        const isPast = new Date(a.date) < new Date(new Date().setHours(0,0,0,0));
+        return `
+        <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; opacity:${isPast?'0.6':'1'}">
+            <div style="display:flex; gap:15px; align-items:center;">
+                <div style="background:var(--primary-start); color:white; padding:15px; border-radius:12px; text-align:center; min-width:80px;">
+                    <div style="font-size:0.8rem; text-transform:uppercase;">${new Date(a.date).toLocaleString('default', {month:'short'})}</div>
+                    <div style="font-size:1.5rem; font-weight:bold;">${a.date.split('-')[2]}</div>
+                </div>
+                <div>
+                    <h4>${a.docName} <span class="badge ${isPast?'badge-warning':'badge-success'}" style="margin-left:10px">${isPast?'Completed':'Upcoming'}</span></h4>
+                    <p class="text-muted" style="margin:5px 0;">${a.docSpec} • ${a.type}</p>
+                    <p style="font-size:0.9rem;">For: <b>${mem?mem.name:'Unknown'}</b> at <b>${a.time}</b></p>
+                </div>
+            </div>
+            <div>
+                ${!isPast ? `<button class="btn btn-danger" onclick="cancelAppt('${a.id}')">Cancel</button>` : ''}
+            </div>
+        </div>
+    `}).join('');
+}
+
+function cancelAppt(id) {
+    if(confirm("Are you sure you want to cancel this appointment?")) {
+        state.appointments = state.appointments.filter(a => a.id !== id);
+        saveState('appointments');
+        showToast('Appointment cancelled');
+        renderMyAppts();
+        renderDashboard();
+    }
+}
+
+/* ==========================================================================
+   PAGE 6: HEALTH LOCKER
+   ========================================================================== */
+function saveDocument() {
+    const d = {
+        id: generateId(),
+        name: document.getElementById('dcName').value,
+        memberId: document.getElementById('dcMember').value,
+        type: document.getElementById('dcType').value,
+        date: document.getElementById('dcDate').value,
+        hospital: document.getElementById('dcHospital').value,
+        notes: document.getElementById('dcNotes').value,
+        addedOn: Date.now()
+    };
+    state.documents.push(d);
+    saveState('documents');
+    closeModal('modalAddDoc');
+    showToast('Document securely saved to locker');
+    renderLocker();
+    return true;
+}
+
+function setLockerFilter(type, el) {
+    document.querySelectorAll('#lockerFilterTabs .filter-tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    filterLocker(type);
+}
+
+function filterLocker(forceType = null) {
+    const typeFilter = forceType || document.querySelector('#lockerFilterTabs .active').innerText;
+    const query = document.getElementById('docLockerSearch').value.toLowerCase();
+    
+    let docs = state.documents;
+    if(typeFilter !== 'All') {
+        const typeMap = {'Prescriptions':'Prescription', 'Lab Reports':'Lab Report', 'Scans':'Scan', 'Vaccinations':'Vaccination'};
+        const exactType = typeMap[typeFilter] || typeFilter;
+        docs = docs.filter(d => d.type === exactType);
+    }
+    if(query) {
+        docs = docs.filter(d => d.name.toLowerCase().includes(query) || (d.hospital && d.hospital.toLowerCase().includes(query)));
+    }
+    
+    renderLockerGrid(docs);
+}
+
+function renderLocker() {
+    document.getElementById('lockerDocCount').innerText = state.documents.length;
+    filterLocker();
+}
+
+function renderLockerGrid(docs) {
+    const grid = document.getElementById('lockerGrid');
+    if(docs.length === 0) {
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><span class="emoji">📁</span><h3>Locker is Empty</h3><p>Upload prescriptions and reports to keep them handy.</p></div>';
+        return;
+    }
+    
+    grid.innerHTML = docs.map(d => {
+        const mem = state.members.find(x=>x.id===d.memberId);
+        return `
+        <div class="glass-card doc-file-card">
+            <div class="doc-icon-large">${getDocIcon(d.type)}</div>
+            <div style="width:100%;">
+                <h4 style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${d.name}">${d.name}</h4>
+                <p class="text-muted" style="font-size:0.8rem; margin:5px 0;">${mem?mem.name:'Unknown'} • ${d.date}</p>
+                <span class="badge badge-primary">${d.type}</span>
+            </div>
+            <div class="doc-file-actions">
+                <button class="btn btn-outline" onclick="showToast('File preview opened.')">View</button>
+                <button class="btn btn-outline" style="border-color:var(--danger-start); color:var(--danger-start)" onclick="deleteDoc('${d.id}')">🗑️</button>
+            </div>
+        </div>
+    `}).join('');
+}
+
+function deleteDoc(id) {
+    if(confirm("Delete this document permanently?")) {
+        state.documents = state.documents.filter(d=>d.id!==id);
+        saveState('documents');
+        renderLocker();
+    }
+}
+
+/* ==========================================================================
+   PAGE 7: AI HEALTH ASSISTANT
+   ========================================================================== */
+function renderChat() {
+    const area = document.getElementById('chatArea');
+    if(state.chatHistory.length === 0) {
+        state.chatHistory.push({role: 'ai', text: 'Hello! I am CareBot, your AI health assistant. How can I help you today? You can ask about symptoms, medications, or healthy habits.'});
+    }
+    
+    area.innerHTML = state.chatHistory.map(msg => `
+        <div class="chat-bubble bubble-${msg.role}">
+            ${msg.text}
+        </div>
+    `).join('');
+    
+    setTimeout(() => area.scrollTop = area.scrollHeight, 100);
+}
+
+function sendAiQuickMsg(text) {
+    document.getElementById('aiChatInput').value = text;
+    submitAiChat();
+}
+
+function submitAiChat() {
+    const input = document.getElementById('aiChatInput');
+    const text = input.value.trim();
+    if(!text) return;
+    
+    state.chatHistory.push({role: 'user', text});
+    input.value = '';
+    renderChat();
+    
+    // Show typing
+    const area = document.getElementById('chatArea');
+    const indicator = document.createElement('div');
+    indicator.className = 'chat-bubble bubble-ai';
+    indicator.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    area.appendChild(indicator);
+    area.scrollTop = area.scrollHeight;
+    
+    setTimeout(() => {
+        indicator.remove();
+        const reply = generateAiResponse(text.toLowerCase());
+        state.chatHistory.push({role: 'ai', text: reply});
+        saveState('chatHistory');
+        renderChat();
+    }, 1500);
+}
+
+function generateAiResponse(q) {
+    if(q.includes('bp') || q.includes('blood pressure')) return "Normal blood pressure is usually around 120/80 mmHg. If your reading is consistently above 130/80, you should consult a doctor. Remember to check it while relaxed and sitting down.";
+    if(q.includes('sugar') || q.includes('diabetes')) return "Fasting blood sugar should generally be under 100 mg/dL. Post-meal levels should be under 140 mg/dL. Diet and exercise play a huge role in maintaining healthy levels.";
+    if(q.includes('fever')) return "For a fever, rest and hydration are very important. Acetaminophen (Paracetamol) or Ibuprofen are commonly used. If the fever exceeds 103°F (39.4°C) or lasts more than 3 days, please see a doctor immediately.";
+    if(q.includes('headache')) return "Headaches can be caused by dehydration, stress, lack of sleep, or eye strain. Drink a glass of water, rest in a dark room. If it's sudden and severe, seek emergency help.";
+    if(q.includes('medicine') || q.includes('drug') || q.includes('interaction')) return "Always take medications as prescribed. If you are taking multiple medications, be aware of interactions. Check with your pharmacist before taking new supplements with your current prescriptions.";
+    if(q.includes('emergency') || q.includes('sos')) return "🚨 IMPORTANT: If you are experiencing a medical emergency, please use the SOS button on the app or dial your local emergency number (like 911) immediately.";
+    if(q.includes('sleep')) return "Adults need 7-9 hours of sleep. Try to maintain a consistent schedule, avoid screens 1 hour before bed, and keep your room cool and dark.";
+    if(q.includes('water') || q.includes('hydration')) return "Aim for about 8 glasses (64 oz) of water a day, more if you are active or live in a hot climate. Keep tracking it in the Challenges tab!";
+    
+    return "That's an interesting question. While I can provide general information, I recommend checking with your healthcare provider for personalized medical advice. Is there anything else you'd like to know about general health metrics?";
+}
+
+/* ==========================================================================
+   PAGE 8: SOS EMERGENCY
+   ========================================================================== */
+let sosTimer = null;
+let sosCount = 3;
+
+function startSOSCountdown() {
+    const btnText = document.getElementById('sosMainText');
+    if(btnText.innerText === 'ALERT SENT!') return;
+    
+    sosCount = 3;
+    btnText.innerText = sosCount;
+    sosTimer = setInterval(() => {
+        sosCount--;
+        if(sosCount > 0) {
+            btnText.innerText = sosCount;
+        } else {
+            clearInterval(sosTimer);
+            btnText.innerText = 'ALERT SENT!';
+            document.getElementById('btnSosMain').style.background = 'radial-gradient(circle, #00ff00 0%, #009900 100%)';
+            document.getElementById('btnSosMain').style.borderColor = 'rgba(0,255,0,0.3)';
+            document.getElementById('btnSosMain').style.animation = 'none';
+            showToast('Emergency alert sent to all family members with your GPS location!', 'error');
+            setTimeout(() => {
+                btnText.innerText = 'PRESS AND HOLD';
+                document.getElementById('btnSosMain').style = ''; // reset styles
+            }, 5000);
+        }
+    }, 1000);
+}
+
+function cancelSOSCountdown() {
+    if(sosTimer) {
+        clearInterval(sosTimer);
+        const btnText = document.getElementById('sosMainText');
+        if(btnText.innerText !== 'ALERT SENT!') {
+            btnText.innerText = 'PRESS AND HOLD';
+        }
+    }
+}
+
+function renderSosContacts() {
+    const list = document.getElementById('sosContactsList');
+    if(state.members.length === 0) {
+        list.innerHTML = '<p class="text-muted">No family members added. Add members to see emergency contacts here.</p>';
+    } else {
+        list.innerHTML = state.members.map(m => `
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <span style="font-size:1.5rem;">${getRelEmoji(m.rel)}</span>
+                    <div><b>${m.name}</b><br><small class="text-muted">${m.rel}</small></div>
+                </div>
+                <button class="btn btn-outline" style="padding:5px 15px;">Call</button>
+            </div>
+        `).join('');
+    }
+    
+    // populate share dropdown
+    const sel = document.getElementById('sosShareMember');
+    sel.innerHTML = '<option value="">Select Member...</option>' + state.members.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+}
+
+function renderSosShareInfo() {
+    const id = document.getElementById('sosShareMember').value;
+    const box = document.getElementById('sosShareInfoDisplay');
+    if(!id) { box.innerHTML = 'Select a member to view summary.'; return; }
+    
+    const m = state.members.find(x=>x.id===id);
+    const meds = state.medications.filter(x=>x.memberId===id).map(x=>x.name).join(', ') || 'None';
+    
+    box.innerHTML = `
+        <b>Name:</b> ${m.name} (${m.age}y)<br>
+        <b>Blood Group:</b> ${m.blood}<br>
+        <b style="color:var(--danger-start)">Allergies:</b> ${m.allergy || 'None known'}<br>
+        <b style="color:var(--warning-start)">Conditions:</b> ${m.cond || 'None known'}<br>
+        <b>Current Meds:</b> ${meds}
+    `;
+}
+
+function copySosInfo() {
+    const text = document.getElementById('sosShareInfoDisplay').innerText;
+    if(text.includes('Select a member')) { showToast('Select a member first', 'warning'); return; }
+    navigator.clipboard.writeText(text).then(() => showToast('Information copied to clipboard!'));
+}
+
+/* ==========================================================================
+   PAGE 9: HEALTH CHALLENGES
+   ========================================================================== */
+function renderChallenges() {
+    // Score
+    let score = Math.min(100, Math.floor((state.challenges.steps/10000)*50 + Math.min(8, state.challenges.water)*6.25));
+    document.getElementById('challengeScoreValue').innerText = score;
+    document.getElementById('challengeScoreCircle').style.setProperty('--score-deg', `${(score/100)*360}deg`);
+    
+    // Steps
+    const stepsPct = Math.min(100, (state.challenges.steps/10000)*100);
+    document.getElementById('chalStepsBar').style.width = `${stepsPct}%`;
+    document.getElementById('chalStepsText').innerText = `${state.challenges.steps} / 10000 steps`;
+    
+    // Water
+    document.getElementById('chalWaterText').innerText = state.challenges.water;
+    document.getElementById('chalWaterBar').style.width = `${Math.min(100, (state.challenges.water/8)*100)}%`;
+    
+    // Streak
+    document.getElementById('chalStreakDays').innerText = state.challenges.streak || 0;
+    
+    // Badges check
+    if(state.challenges.water >= 8) document.getElementById('badgeHydration').classList.add('earned');
+    if(state.challenges.steps >= 10000) document.getElementById('badgeSteps').classList.add('earned');
+    if((state.challenges.streak||0) >= 7) document.getElementById('badgeStreak').classList.add('earned');
+    
+    // Leaderboard (Mocked sorting of family members by random points based on name length for fun)
+    const board = document.getElementById('chalLeaderboard');
+    if(state.members.length === 0) {
+        board.innerHTML = '<p class="text-muted">Add members to see leaderboard.</p>';
+    } else {
+        const sorted = [...state.members].sort((a,b)=>b.name.length - a.name.length);
+        board.innerHTML = sorted.map((m, i) => `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.2rem;">${i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)}</span>
+                    <span class="emoji">${getRelEmoji(m.rel)}</span>
+                    <span>${m.name}</span>
+                </div>
+                <b>${Math.floor(m.name.length * 150)} pts</b>
+            </div>
+        `).join('');
+    }
+}
+
+function logChallengeSteps() {
+    const v = parseInt(document.getElementById('chalStepsInput').value);
+    if(v && v > 0) {
+        state.challenges.steps = (state.challenges.steps || 0) + v;
+        saveState('challenges');
+        document.getElementById('chalStepsInput').value = '';
+        showToast('Steps logged!');
+        renderChallenges();
+    }
+}
+
+function adjustWater(amount) {
+    state.challenges.water = Math.max(0, (state.challenges.water || 0) + amount);
+    saveState('challenges');
+    renderChallenges();
+}
+
+/* ==========================================================================
+   PAGE 10: CALENDAR
+   ========================================================================== */
+let currDate = new Date();
+
+function renderCalendar() {
+    const monthYearStr = currDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+    document.getElementById('calMonthYearText').innerText = monthYearStr;
+    
+    const grid = document.getElementById('calGridBody');
+    grid.innerHTML = '';
+    
+    const firstDay = new Date(currDate.getFullYear(), currDate.getMonth(), 1).getDay();
+    const daysInMonth = new Date(currDate.getFullYear(), currDate.getMonth() + 1, 0).getDate();
+    
+    const today = new Date();
+    
+    // Padding
+    for(let i=0; i<firstDay; i++) {
+        grid.innerHTML += '<div class="cal-cell empty"></div>';
+    }
+    
+    for(let i=1; i<=daysInMonth; i++) {
+        const dStr = `${currDate.getFullYear()}-${String(currDate.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+        
+        let isToday = false;
+        if(i === today.getDate() && currDate.getMonth() === today.getMonth() && currDate.getFullYear() === today.getFullYear()) {
+            isToday = true;
+        }
+        
+        // Find events
+        const evs = state.calendar.filter(e => e.date === dStr);
+        const appts = state.appointments.filter(a => a.date === dStr);
+        
+        let dots = '';
+        if(evs.length > 0) dots += '<div class="cal-dot dot-alert"></div>'; // generic event
+        if(appts.length > 0) dots += '<div class="cal-dot dot-appt"></div>'; // appt
+        
+        // mock med dot everyday
+        if(state.medications.length > 0) dots += '<div class="cal-dot dot-med"></div>';
+        
+        grid.innerHTML += `
+            <div class="cal-cell ${isToday ? 'today' : ''}" onclick="showToast('Selected date: ${monthYearStr} ${i}')">
+                <span class="cal-date-num">${i}</span>
+                <div class="cal-events-dots">${dots}</div>
+            </div>
+        `;
+    }
+}
+
+function changeCalMonth(dir) {
+    currDate.setMonth(currDate.getMonth() + dir);
+    renderCalendar();
+}
+
+function saveCalendarEvent() {
+    const ev = {
+        id: generateId(),
+        title: document.getElementById('evTitle').value,
+        type: document.getElementById('evType').value,
+        memberId: document.getElementById('evMember').value,
+        date: document.getElementById('evDate').value,
+        time: document.getElementById('evTime').value
+    };
+    state.calendar.push(ev);
+    saveState('calendar');
+    closeModal('modalAddEvent');
+    showToast('Event added to calendar');
+    renderCalendar();
+    renderUpcomingEvents();
+    return true;
+}
+
+function renderUpcomingEvents() {
+    const list = document.getElementById('calEventsList');
+    // combine appointments and calendar events
+    let allEvs = [
+        ...state.calendar.map(e => ({...e, isAppt:false})),
+        ...state.appointments.map(a => ({
+            id: a.id, title: `Appt: ${a.docName}`, type: 'Appointment',
+            memberId: a.memberId, date: a.date, time: a.time, isAppt: true
+        }))
+    ];
+    
+    // sort upcoming
+    const todayStr = new Date().toISOString().split('T')[0];
+    allEvs = allEvs.filter(e => e.date >= todayStr).sort((a,b) => new Date(a.date) - new Date(b.date));
+    
+    if(allEvs.length === 0) {
+        list.innerHTML = '<div class="empty-state"><p>No upcoming events.</p></div>';
+        return;
+    }
+    
+    list.innerHTML = allEvs.slice(0,10).map(e => {
+        const mem = state.members.find(x=>x.id===e.memberId);
+        let icon = '📅';
+        if(e.type==='Appointment') icon = '🏥';
+        if(e.type==='Medication') icon = '💊';
+        if(e.type==='Vaccine') icon = '💉';
+        
+        return `
+        <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; gap:15px; align-items:center;">
+                <div style="font-size:2rem;">${icon}</div>
+                <div>
+                    <h4 style="margin-bottom:3px;">${e.title}</h4>
+                    <p style="font-size:0.85rem;" class="text-muted">${e.date} ${e.time ? 'at '+e.time : ''} • For ${mem?mem.name:'Family'}</p>
+                </div>
+            </div>
+            ${!e.isAppt ? `<button class="btn btn-outline" style="border-color:var(--danger-start); color:var(--danger-start); padding:5px 10px;" onclick="delCalEvent('${e.id}')">🗑️</button>` : `<span class="badge badge-success">Appt</span>`}
+        </div>
+        `;
+    }).join('');
+}
+
+function delCalEvent(id) {
+    if(confirm('Delete this event?')) {
+        state.calendar = state.calendar.filter(e=>e.id!==id);
+        saveState('calendar');
+        renderCalendar(); renderUpcomingEvents();
+    }
+}
+
+/* ==========================================================================
+   GLOBAL INITIALIZATION
+   ========================================================================== */
+window.onload = () => {
+    // Check local storage init for challenges reset if new day (mock logic)
+    
+    // Set up global search mock
+    window.handleGlobalSearch = function(e) {
+        if(e.target.value.length > 2) {
+            // Mock visual cue
+            e.target.style.borderColor = 'var(--success-start)';
+        } else {
+            e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+        }
+    };
+    
+    // Force start empty check handled inside render functions
+    
+    navigateTo('dashboard');
+};
+</script>
+</body>
+</html>
